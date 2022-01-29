@@ -5,6 +5,7 @@ module.exports = (sequelize) =>{
         courseId:{
             type: DataTypes.INTEGER,
             primaryKey: true,
+            unique: true,
             autoIncrement: true
         },
         code: DataTypes.STRING,

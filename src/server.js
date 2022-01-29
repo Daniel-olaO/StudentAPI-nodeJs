@@ -1,16 +1,15 @@
+const studentRoutes = require('./routes/student');
+const courseRoutes = require('./routes/course')
 const express = require('express');
-const dotenv = require('dotenv').config();
-const { initialize } = require('./query/index.js');
-const HTTP_PORT = process.env.PORT || 3000;
 const app = express();
 
-app.get('/', (req, res)=>{
-    res.json({"message":"welcome to studentAPI"})
+app.use(express.json());
+
+app.use('/v1/students', studentRoutes);
+app.use('/v1/coures', courseRoutes);
+
+app.get('/v1', (req, res)=>{
+    res.status(200).json({"message":"welcome to studentAPI"})
 });
 
-initialize().then(()=>{
-    app.listen(HTTP_PORT, ()=>console.log(`server running on port:${HTTP_PORT}`));
-})
-.catch(err=>{
-    console.log(err);
-})
+module.exports = app;

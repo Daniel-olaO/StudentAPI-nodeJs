@@ -4,7 +4,8 @@ module.exports = (sequelize) => {
     sequelize.define('student',{
         studentId:{
             type: DataTypes.UUID,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         firstName:{
             type: DataTypes.STRING,

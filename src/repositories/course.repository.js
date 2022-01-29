@@ -1,6 +1,6 @@
 const Courses = require('../models/course.model');
 
-export class Course{
+module.exports = class Course{
     async addCourse(courseData){
         try {
            const course = await Courses.create({
@@ -23,11 +23,11 @@ export class Course{
             return JSON.stringify(error);
         }
     }
-    async getCourseByCode(code){
+    async getCourseById(id){
         try {
             const course = await Courses.findAll({
                 where:{
-                    code: code
+                    codeId: id
                 }
             });
             return course;
@@ -36,15 +36,16 @@ export class Course{
             return JSON.stringify(error);
         }
     }
-    async updateCourse(courseData){
+    async updateCourseById(courseData, id){
         try {
-            await  Courses.update({
+            await Courses.update({
+                code: courseData.code,
                 name: courseData.name,
                 professor: courseData.professor,
                 program: courseData.professor
             },{
                 where:{
-                    code: courseData.code
+                    courseId: id
                 }
             });
             return JSON.stringify({'message':`${courseData.code} updated successfully`});
@@ -52,11 +53,11 @@ export class Course{
             return JSON.stringify(error);        
         }
     }
-    async deleteCourseByCode(code){
+    async deleteCourseById(id){
         try {
             await Courses.destroy({
                 where:{
-                    code: code
+                    courseId: id
                 }
             });
             return JSON.stringify({'message': `Course ${code} deleted successfully`});

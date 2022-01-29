@@ -1,9 +1,13 @@
 const Students = require('../models/student.model');
+const { generateId } = require('../utils/utils');
 
-export class Student{
+module.exports = class Student{
     async addStudent(studentData){
+        let id = generateId();
+
         try {
            const student = await Students.create({
+                studentId: id,
                 firstName: studentData.firstName,
                 lastName: studentData.lastName,
                 email: studentData.email,
@@ -17,7 +21,7 @@ export class Student{
             return err;
         }
     }
-    async getAllStundent(){ 
+    async getAllStudent(){ 
         try{
             const students = await Students.findAll();
 
@@ -40,7 +44,7 @@ export class Student{
             return err;
         }
     }
-    async updateStudent(studentData){
+    async updateStudent(studentData, id){
         try{
             await Students.update({
                 firstName: studentData.firstName,
@@ -51,7 +55,7 @@ export class Student{
                 startDate: studentData.startDate
             },{
                 where:{
-                    studentId: studentData.studentId
+                    studentId: id
                 }
             });
             return JSON.stringify({'message':`${studentData.studentId} updated successfully`});
