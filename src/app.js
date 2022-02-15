@@ -1,6 +1,6 @@
 const dotenv = require('dotenv').config();
 const { initialize } = require('./repositories/index');
-const HTTP_PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 8080;
 const server = require('./server');
 
 

@@ -1,4 +1,4 @@
-const Students = require('../models/student.model');
+const { models } = require('../database');
 const { generateId } = require('../utils/utils');
 
 module.exports = class Student{
@@ -6,7 +6,7 @@ module.exports = class Student{
         let id = generateId();
 
         try {
-           const student = await Students.create({
+           const student = await sequelize.models.student.create({
                 studentId: id,
                 firstName: studentData.firstName,
                 lastName: studentData.lastName,
@@ -23,8 +23,8 @@ module.exports = class Student{
     }
     async getAllStudent(){ 
         try{
-            const students = await Students.findAll();
-
+            const students = await sequelize.models.student.findAll();
+            
             return students;
         }
         catch(err){
@@ -33,7 +33,7 @@ module.exports = class Student{
     }
     async getStudentById(id){
         try{
-            const student = await Students.findAll({
+            const student = await sequelize.models.student.findAll({
                 where:{
                     studentId: id
                 }
@@ -46,7 +46,7 @@ module.exports = class Student{
     }
     async updateStudent(studentData, id){
         try{
-            await Students.update({
+            await sequelize.models.student.update({
                 firstName: studentData.firstName,
                 lastName: studentData.lastName,
                 email: studentData.email,
@@ -66,7 +66,7 @@ module.exports = class Student{
     }
     async deleteStudentById(id){
         try {
-            await Students.destroy({
+            await sequelize.models.student.destroy({
                 where:{
                     studentId: id
                 }

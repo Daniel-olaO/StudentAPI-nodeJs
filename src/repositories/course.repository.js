@@ -1,31 +1,34 @@
-const Courses = require('../models/course.model');
+const { models } = require('../database');
 
-module.exports = class Course{
-    async addCourse(courseData){
+module.exports = {
+    addCourse: async(courseData)=>{
+        console.log(models)
         try {
-           const course = await Courses.create({
+           const course = await models.Courses.create({
                 code: courseData.code,
                 name: courseData.name,
                 professor: courseData.professor,
-                program: courseData.professor
+                program: courseData.program
             });
+            // console.log(course)
             return course;
         } catch (error) {
-         return JSON.stringify(errror);   
+            console.log(error)
+         return JSON.stringify(error);   
         }
-    }
-    async getAllCoures(){
+    },
+    getAllCoures: async()=>{
         try {
-            const courses = await Courses.findAll();
-
+            const courses = await   models.course.findAll();
             return courses
         } catch (error) {
+            console.log(error)
             return JSON.stringify(error);
         }
-    }
-    async getCourseById(id){
+    },
+    getCourseById: async(id)=>{
         try {
-            const course = await Courses.findAll({
+            const course = await sequelize.models.course.findAll({
                 where:{
                     codeId: id
                 }
@@ -35,10 +38,10 @@ module.exports = class Course{
         } catch (error) {
             return JSON.stringify(error);
         }
-    }
-    async updateCourseById(courseData, id){
+    },
+    updateCourseById: async(courseData, id)=>{
         try {
-            await Courses.update({
+            await sequelize.models.course.update({
                 code: courseData.code,
                 name: courseData.name,
                 professor: courseData.professor,
@@ -52,10 +55,10 @@ module.exports = class Course{
         } catch (error) {
             return JSON.stringify(error);        
         }
-    }
-    async deleteCourseById(id){
+    },
+    deleteCourseById: async(id)=>{
         try {
-            await Courses.destroy({
+            await sequelize.models.course.destroy({
                 where:{
                     courseId: id
                 }

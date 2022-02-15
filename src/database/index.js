@@ -1,15 +1,11 @@
 const { Sequelize } = require('sequelize');
 const { modelConfig } = require('./config');
 
-const sequelize = new Sequelize(process.env.DB_CONNECTION_URL,{
-	dialectOptions: {
-        ssl: { rejectUnauthorized: false }
-    }
-});
+var sequelize = new Sequelize(process.env.DB_CONNECTION_URLII);
 
 const modelDefiners = [
-	require('./course.model'),
-	require('./student.model'),
+	require('./models/course.model'),
+	require('./models/student.model'),
 	
 ];
 
