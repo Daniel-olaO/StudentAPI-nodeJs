@@ -4,7 +4,7 @@ const validator = require('../validations/student');
 
 const router = express.Router();
 
-router.post('/api/v1/addStudent', 
+router.post('/addStudent', 
     validator.validateStudent,
     studentController.addStudent
 );

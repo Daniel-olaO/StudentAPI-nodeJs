@@ -10,7 +10,7 @@ router.get('/:id', courseController.getCourseById);
 
 router.post('/addCourse',
     validator.validateCourse,
-    courseController.addCourse, ()=> console.log("hi")
+    courseController.addCourse
 );
 
 router.put('/updateCourse/:id',
@@ -18,6 +18,6 @@ router.put('/updateCourse/:id',
     courseController.updateCourseById
 );
 
-router.delete('deleteCourse/:id', courseController.deleteCourseById);
+router.delete('/deleteCourse/:id', courseController.deleteCourseById);
 
 module.exports = router

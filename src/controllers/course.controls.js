@@ -1,29 +1,28 @@
-const res = require('express/lib/response');
-const CoureRepository = require('../repositories/course.repository');
+const CourseRepository = require('../repositories/courses.repository');
 
 /**
  * Controller function that etrieves the list of records based on date and count
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  * @param {Next} next - Callback function
+ * @param {ErrorRequestHandler} err - Error object
  * @returns {Object} - Success response in JSON
  */
 
-const coureRepository = new CoureRepository();
-
+const courseRepository = new CourseRepository()
 module.exports = {
-    addCourse: async(res, req, next)=>{
+    addCourse: async(req, res, next)=>{
         try {
-            const newCourse = await coureRepository.addCourse(req.body);
-
+            const newCourse = await courseRepository.addCourse(req.body);
             res.status(201).json(newCourse);
         } catch (error) {
+            // console.log(error)
             next(error);
         }
     },
     getCourseById: async(req, res, next)=>{
         try {
-            const course = await coureRepository.getCourseById(req.params.id)
+            const course = await getCourseById(req.params.id)
 
             res.status(200).json(course)
         } catch (error) {
@@ -32,7 +31,7 @@ module.exports = {
     },
     getAllCoures: async(req, res, next)=>{
         try {
-            const courses = await coureRepository.getAllCoures();
+            const courses = await getAllCoures();
 
             res.status(200).json(courses)
         } catch (error) {
@@ -41,7 +40,7 @@ module.exports = {
     },
     updateCourseById: async(req, res, next)=>{
         try {
-            const newCourse = await coureRepository.updateCourseById(req.body, req.params.id);
+            const newCourse = await updateCourseById(req.body, req.params.id);
 
             res.status(201).json(newCourse);
         } catch (error) {
@@ -50,7 +49,7 @@ module.exports = {
     },
     deleteCourseById: async(req, res, next)=>{
         try {
-            const deleteCourse = await coureRepository.deleteCourseById(req.params.id);
+            const deleteCourse = await deleteCourseById(req.params.id);
 
             res.status(204).end();
         } catch (error) {

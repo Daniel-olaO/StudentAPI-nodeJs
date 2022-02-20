@@ -10,7 +10,8 @@ const joi = require('joi')
 exports.validateCourse = function(req, res, next){
     const schema = joi.object({
         code: joi.string().required(),
-        name: joi.string().required(),        
+        name: joi.string().required(),
+        professor: joi.string().required(),
         program: joi.string().length(3).required(),
     });
     const validation = schema.validate(req.body);

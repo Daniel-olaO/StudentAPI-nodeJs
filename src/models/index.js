@@ -1,23 +1,11 @@
-const { Sequelize } = require('sequelize');
-const { modelConfig } = require('./config');
+const CourseSchema = require('./courses.model');
+const StudentSchema = require('./students.model');
+const connection = require('../config/db');
 
-const sequelize = new Sequelize(process.env.DB_CONNECTION_URL,{
-	dialectOptions: {
-        ssl: { rejectUnauthorized: false }
-    }
-});
+const Course = connection.model('Course', CourseSchema);
+const Student = connection.model('Student', StudentSchema);
 
-const modelDefiners = [
-	require('./course.model'),
-	require('./student.model'),
-	
-];
-
-// We define all models according to their files.
-for (const modelDefiner of modelDefiners) {
-	modelDefiner(sequelize);
-}
-
-modelConfig(sequelize);
-
-module.exports = sequelize;
+module.exports = {
+  Course,
+  Student
+};

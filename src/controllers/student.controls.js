@@ -1,4 +1,4 @@
-const StudentRepository = require('../repositories/student.repository');
+const StudentRepository = require('../repositories/students.repository');
 
 
 /**
