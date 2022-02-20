@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 const CourseRepository = require('../repositories/courses.repository');
+=======
+const { addCourse, 
+        getAllCoures,
+        updateCourseById,
+        deleteCourseById 
+} = require('../repositories/course.repository');
+>>>>>>> f86d28d1f93e64230abff7e2c9ff7b2cc25052bf
 
 /**
  * Controller function that etrieves the list of records based on date and count
@@ -9,11 +17,19 @@ const CourseRepository = require('../repositories/courses.repository');
  * @returns {Object} - Success response in JSON
  */
 
+<<<<<<< HEAD
 const courseRepository = new CourseRepository()
 module.exports = {
     addCourse: async(req, res, next)=>{
         try {
             const newCourse = await courseRepository.addCourse(req.body);
+=======
+
+module.exports = {
+    addCourse: async(req, res, next)=>{
+        try {
+            const newCourse = await addCourse(req.body);
+>>>>>>> f86d28d1f93e64230abff7e2c9ff7b2cc25052bf
             res.status(201).json(newCourse);
         } catch (error) {
             // console.log(error)
