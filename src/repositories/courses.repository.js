@@ -1,48 +1,68 @@
-const { Course } = require('../models/courses.model');
+const Model = require('../database/models/courses.model');
+const { generateId } = require('../utils/utils')
 
 module.exports = class CourseRepository{
     async addCourse(courseData) {
-        let newCourse = new Course({
+        let id = generateId()
+        const newCourse = new Model({
+            courseId: id,
             code: courseData.code,
             name: courseData.name,
             professor: courseData.professor,
             program: courseData.program
-        });
-        console.log(newCourse)
-        await newCourse.save((err)=>{
-            if (err) throw new Error("course couldn't be saved");
-            console.log("saved");
-            return newCourse;
-        });
+        });   
+        try{
+            const data = await newCourse.save();
+            return data;
+        }
+        catch(error){
+            if(error.code === 11000){
+                return `courseId: ${courseData.courseId} already exits`;
+            }
+            console.log(error);
+            return error.message;
+        }
     }
     async getCourseById(id) {
-        Course.find({courseId: id})
-        .exec()
-        .then((course)=>{
-            course = course.map(value => value.toObject());
-            return course;
-        })
+         try{
+            const data = await Model.findById(id);
+            return data;
+        }
+        catch(error){
+            console.log(error)
+            return error.message;
+        }
     }
     async getAllCourses(){
-        Course.find().exec().then((courses)=>{
-            course = courses.map(value => value.toObject());
-            return courses;
-        })
+        try {
+            const data = await Model.find();
+            return data;
+        }
+        catch (err) {
+            console.log(err);
+            return err.message;
+        }
     }
     async updateCourseById(courseData, id) {
-        Course.updateOne({courseId: id},
-            {$set:{
-                code: courseData.code,
-                name: courseData.name,
-                professor: courseData.professor,
-                program: courseData.program
-            }}
-        ).exec()
-        .then(()=> `course ${id} has been updated`);
+         try {
+            const options = { new: true };
+            const result = await Model.findByIdAndUpdate(id, courseData, options);
+
+            return result;
+        }
+        catch (err) {
+            console.log(err);
+            return err.message;
+        }
     }
     async deleteCourseById(id) {
-        await Course.deleteOne({courseId: id})
-        .exec()
-        .then(()=> `course ${id} has been deleted`);
+       try{
+           const data = await Model.findByIdAndDelete(id);
+           return data;
+       }
+       catch(err) {
+           console.log(err);
+           return err.message;
+       }
     }
 }

@@ -1,6 +1,7 @@
 const { Schema } = require('mongoose');
+const connection = require('../index');
 
-const studentSchema = new Schema({
+const StudentSchema = new Schema({
     studentId:{
         type: String,
         unique: true,
@@ -12,4 +13,4 @@ const studentSchema = new Schema({
     program: String
 });
 
-module.exports = { studentSchema };
+module.exports = connection.model('Student', StudentSchema)

@@ -1,11 +1,11 @@
-const { Student } = require('../config/db');
+const Model = require('../database/models/students.model');
 const { generateId } = require('../utils/utils')
 
 module.exports = class StudentRepository{
     async addStudent(studentData) {
         let id = generateId();
 
-        let newStudent = new Student({
+        const newStudent = new Model({
             studentId: id,
             firstName: studentData.firstName,
             lastName: studentData.lastName,
@@ -13,41 +13,59 @@ module.exports = class StudentRepository{
             phone: studentData.phone,
             program: studentData.program,
         });
-        await newStudent.save((err)=>{
-            if (err) throw new Error(err);
-
-            return newStudent;
-        });
+        try{
+            const data = await newStudent.save();
+            return data;
+        }
+        catch(error){
+            if(error.code === 11000){
+                return `studentId: ${studentData.studentId} already exits`;
+            }
+            console.log(error);
+            return error.message;
+        }
     }
     async getAllStudent(){
-        Student.find().exec().then((students)=>{
-            students = students.map(value=> value.toObject());
-
-            return students;
-        })
+        try{
+            const data = await Model.find();
+            return data;
+        }
+        catch(error){
+            console.log(error);
+            return error.message;
+        }
     }
     async getStudentById(id){
-        Student.find({studentId: id}).exec().then((student)=>{
-            student = student.map(value=> value.toObject());
-
-            return student;
-        })
+        try{
+            const data = await Model.findById(id);
+            return data;
+        }
+        catch(error){
+            console.log(error);
+            return error.message;
+        }
     }
     async updateStudent(studentData, id) {
-        Student.updateOne({studentId: id},
-            {$set:{
-                firstName: student.firstName,
-                lastName: studentData.lastName,
-                email: studentData.email,
-                phone: studentData.phone,
-                program: studentData.program,
-            }}
-        ).exec()
-        .then(()=>`studentId ${id} updated successfully`);
+        try {
+            const options = { 
+                new: true
+            }
+            const result = await Model.findByIdAndUpdate(id, StudentData, options);
+            return result
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
+        }
     } 
     async deleteStudentById(id) {
-        await Student.deleteOne({studentId: id})
-        .exec()
-        .then(()=>`studentId ${id} deleted successfully`);
+        try{
+            const data = await Model.findByIdAndDelete(id);
+            return data
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
+        }
     }
 }
