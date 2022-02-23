@@ -10,7 +10,16 @@ const StudentSchema = new Schema({
     lastName: String,
     email: String,
     phone: String,
-    program: String
+    program: String,
+    courses: [
+        {
+            _id: false,
+            code: String,
+            name: String,
+            professor: String,
+        
+        },
+    ]
 });
 
 module.exports = connection.model('Student', StudentSchema)

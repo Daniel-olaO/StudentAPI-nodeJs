@@ -37,7 +37,7 @@ module.exports = class StudentRepository{
     }
     async getStudentById(id){
         try{
-            const data = await Model.findById(id);
+            const data = await Model.findOne({studentId: id});
             return data;
         }
         catch(error){
@@ -60,12 +60,47 @@ module.exports = class StudentRepository{
     } 
     async deleteStudentById(id) {
         try{
-            const data = await Model.findByIdAndDelete(id);
+            const data = await Model.findOneAndDelete({studentId:id});
             return data
         }
         catch (error) {
             console.log(error);
             return error.message;
+        }
+    }
+    async takeCouse(id, courseData){
+        try{
+            
+            const data = await Model.findOneAndUpdate({
+                studentId: id
+            },
+            {$addToSet: {
+                courses: {
+                    "code": courseData.code,
+                    "name": courseData.name,
+                    "professor": courseData.professor
+                }
+            }});
+            return data;
+        }
+        catch (err) {
+            console.error(err);
+            return err.message;
+        }
+    }
+    async dropCouse(id, courseCode){
+        try{
+            const data = await Model.findOneAndUpdate({
+                studentId: id
+            },
+            {"$pull":{
+                "courses": [{"code": courseCode}]
+            }}, { multi:true });
+            return data;
+        }
+        catch(err){
+            console.error(err);
+            return err.message;
         }
     }
 }

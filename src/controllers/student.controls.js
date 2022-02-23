@@ -1,4 +1,5 @@
 const StudentRepository = require('../repositories/students.repository');
+const CourseRepository = require('../repositories/courses.repository');
 
 
 /**
@@ -8,7 +9,8 @@ const StudentRepository = require('../repositories/students.repository');
  * @param {Next} next - Callback function
  * @returns {Object} - Success response in JSON
  */
-const studentRepository = new StudentRepository()
+const studentRepository = new StudentRepository();
+const courseRepository = new CourseRepository();
 module.exports = {
     addStudent: async(req, res, next)=>{
         try {
@@ -47,6 +49,27 @@ module.exports = {
             await studentRepository.deleteStudentById(req.params.id);
             res.status(204).end();
         } catch (error) {
+            next(error);
+        }
+    },
+    takeCouse: async(req, res, next)=>{
+        try{
+            const course = await courseRepository.getCourseByCode(req.params.code);
+            if(course){
+                const student = await studentRepository.takeCouse(req.params.id, course);
+                res.status(202).json(student);
+            }
+        }
+        catch(error){
+            next(error);
+        }
+    },
+    dropCouse: async(req, res, next)=>{
+        try{
+            const result = await studentRepository.dropCouse(req.params.id, req.params.code);
+            res.status(202).json(result);
+        }
+        catch(error){
             next(error);
         }
     }
