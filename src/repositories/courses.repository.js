@@ -3,9 +3,7 @@ const { generateId } = require('../utils/utils')
 
 module.exports = class CourseRepository{
     async addCourse(courseData) {
-        let id = generateId()
         const newCourse = new Model({
-            courseId: id,
             code: courseData.code,
             name: courseData.name,
             professor: courseData.professor,
@@ -23,9 +21,9 @@ module.exports = class CourseRepository{
             return error.message;
         }
     }
-    async getCourseById(id) {
+    async getCourseByCode(code) {
          try{
-            const data = await Model.findById(id);
+            const data = await Model.findOne({code: code});
             return data;
         }
         catch(error){
@@ -43,10 +41,10 @@ module.exports = class CourseRepository{
             return err.message;
         }
     }
-    async updateCourseById(courseData, id) {
+    async updateCourseByCode(courseData, code) {
          try {
             const options = { new: true };
-            const result = await Model.findByIdAndUpdate(id, courseData, options);
+            const result = await Model.findOneAndUpdate(code, courseData, options);
 
             return result;
         }
@@ -55,9 +53,9 @@ module.exports = class CourseRepository{
             return err.message;
         }
     }
-    async deleteCourseById(id) {
+    async deleteCourseByCode(code) {
        try{
-           const data = await Model.findByIdAndDelete(id);
+           const data = await Model.findByIdAndDelete(code);
            return data;
        }
        catch(err) {

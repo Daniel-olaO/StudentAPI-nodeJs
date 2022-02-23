@@ -19,9 +19,9 @@ module.exports = {
             next(error);
         }
     },
-    getCourseById: async(req, res, next)=>{
+    getCourseByCode: async(req, res, next)=>{
         try {
-            const course = await courseRepository.getCourseById(req.params.id)
+            const course = await courseRepository.getCourseByCode(req.params.code);
             res.status(200).json(course)
         } catch (error) {
             next(error);
@@ -35,17 +35,17 @@ module.exports = {
             next(error);
         }
     },
-    updateCourseById: async(req, res, next)=>{
+    updateCourseByCode: async(req, res, next)=>{
         try {
-            const newCourse = await courseRepository.updateCourseById(req.body, req.params.id);
+            const newCourse = await courseRepository.updateCourseByCode(req.body, req.params.code);
             res.status(201).json(newCourse);
         } catch (error) {
             next(error);
         }
     },
-    deleteCourseById: async(req, res, next)=>{
+    deleteCourseByCode: async(req, res, next)=>{
         try {
-            await courseRepository.deleteCourseById(req.params.id);
+            await courseRepository.deleteCourseByCode(req.params.code);
             res.status(204).end();
         } catch (error) {
             next(error);

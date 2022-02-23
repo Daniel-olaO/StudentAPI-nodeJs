@@ -17,6 +17,9 @@ router.put('/updateStudent/:id',
     validator.validateStudent,
     studentController.updateStudent
 );
+router.put('/:id/takeCourse/:code', studentController.takeCouse);
+
+router.put('/:id/dropCourse/:code', studentController.dropCouse);
 
 router.delete('/deleteStudent/:id', studentController.deleteStudentById);
 
