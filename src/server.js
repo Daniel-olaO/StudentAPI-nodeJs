@@ -5,10 +5,10 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/v1/students', studentRoutes);
-app.use('/v1/courses', courseRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/courses', courseRoutes);
 
-app.get('/v1', (req, res)=>{
+app.get('/api', (req, res)=>{
     res.status(200).json({"message":"welcome to studentAPI"})
 });
 
