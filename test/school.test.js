@@ -173,4 +173,24 @@ describe('API test', () =>{
             done();
         });
     });
+    it('should return success when student take a course',(done)=>{
+        request(server)
+        .put('/api/students/VJ7T5S2QN/takeCourse/IPC144')
+        .expect('Content-Type', /json/)
+        .expect(202)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should return success when student take a course',(done)=>{
+        request(server)
+        .put('/api/students/VJ7T5S2QN/dropCourse/IPC144')
+        .expect('Content-Type', /json/)
+        .expect(202)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
 })
