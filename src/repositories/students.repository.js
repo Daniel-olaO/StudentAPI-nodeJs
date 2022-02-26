@@ -21,7 +21,6 @@ module.exports = class StudentRepository{
             if(error.code === 11000){
                 return `studentId: ${studentData.studentId} already exits`;
             }
-            console.log(error);
             return error.message;
         }
     }
@@ -31,7 +30,6 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
             return error.message;
         }
     }
@@ -41,7 +39,6 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
             return error.message;
         }
     }
@@ -54,7 +51,6 @@ module.exports = class StudentRepository{
             return result
         }
         catch (error) {
-            console.log(error);
             return error.message;
         }
     } 
@@ -64,13 +60,11 @@ module.exports = class StudentRepository{
             return data
         }
         catch (error) {
-            console.log(error);
             return error.message;
         }
     }
     async takeCouse(id, courseData){
-        try{
-            
+        try{   
             const data = await Model.findOneAndUpdate({
                 studentId: id
             },
@@ -84,7 +78,8 @@ module.exports = class StudentRepository{
             return data;
         }
         catch (err) {
-            console.error(err);
+            if(err.code === 11000)
+                return `${courseData.code} has already been added`;
             return err.message;
         }
     }
@@ -99,7 +94,6 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(err){
-            console.error(err);
             return err.message;
         }
     }

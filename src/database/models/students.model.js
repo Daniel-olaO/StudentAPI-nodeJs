@@ -20,6 +20,6 @@ const StudentSchema = new Schema({
         
         },
     ]
-});
+});     
 
 module.exports = connection.model('Student', StudentSchema)
