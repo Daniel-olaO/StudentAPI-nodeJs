@@ -17,7 +17,6 @@ module.exports = class CourseRepository{
             if(error.code === 11000){
                 return `courseId: ${courseData.courseId} already exits`;
             }
-            console.log(error);
             return error.message;
         }
     }
@@ -27,7 +26,6 @@ module.exports = class CourseRepository{
             return data;
         }
         catch(error){
-            console.log(error)
             return error.message;
         }
     }
@@ -36,8 +34,7 @@ module.exports = class CourseRepository{
             const data = await Model.find();
             return data;
         }
-        catch (err) {
-            console.log(err);
+        catch (err) {            
             return err.message;
         }
     }
@@ -49,7 +46,6 @@ module.exports = class CourseRepository{
             return result;
         }
         catch (err) {
-            console.log(err);
             return err.message;
         }
     }
@@ -59,7 +55,6 @@ module.exports = class CourseRepository{
            return data;
        }
        catch(err) {
-           console.log(err);
            return err.message;
        }
     }

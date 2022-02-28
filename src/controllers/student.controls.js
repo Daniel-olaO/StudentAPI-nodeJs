@@ -17,7 +17,7 @@ module.exports = {
             const newStudent = await studentRepository.addStudent(req.body);
             res.status(201).json(newStudent);
         } catch (error) {
-            next(error);
+            res.status(400).json(error);
         }
     },
     getStudents: async(req, res, next)=>{
@@ -25,7 +25,7 @@ module.exports = {
             const students = await studentRepository.getAllStudent();
             res.status(200).json(students);
         } catch (error) {
-            next(error);
+            res.status(400).json(error);
         }
     },
     getStudentById: async(req, res, next)=>{
@@ -41,7 +41,7 @@ module.exports = {
             const student = await studentRepository.updateStudent(req.body, req.params.id);
             res.status(201).json(student);
         } catch (error) {
-            next(error);
+            res.status(400).json(error);
         }
     },
     deleteStudentById: async(req, res, next)=>{
@@ -49,7 +49,7 @@ module.exports = {
             await studentRepository.deleteStudentById(req.params.id);
             res.status(204).end();
         } catch (error) {
-            next(error);
+            res.status(400).json(error);
         }
     },
     takeCouse: async(req, res, next)=>{
@@ -61,7 +61,7 @@ module.exports = {
             }
         }
         catch(error){
-            next(error);
+            res.status(400).json(error);
         }
     },
     dropCouse: async(req, res, next)=>{
@@ -70,7 +70,7 @@ module.exports = {
             res.status(202).json(result);
         }
         catch(error){
-            next(error);
+            res.status(400).json(error);
         }
     }
 }
