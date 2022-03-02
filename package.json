@@ -4,21 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/app"
+    "start": "nodemon ./src/app",
+    "test":  "mocha ./test/*.test.js --timeout 100000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.2",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "joi": "^17.6.0",
-    "pg": "^8.7.1",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.14.0"
+    "mongoose": "^6.2.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "expect": "^27.5.1",
+    "mocha": "^9.2.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

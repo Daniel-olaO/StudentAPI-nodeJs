@@ -1,19 +1,11 @@
-const { Sequelize } = require('sequelize');
-const { modelConfig } = require('./config');
+const mongoose = require('mongoose');
+const mongoString = process.env.DB_CONNECTION_URL
 
-var sequelize = new Sequelize(process.env.DB_CONNECTION_URLII);
 
-const modelDefiners = [
-	require('./models/course.model'),
-	require('./models/student.model'),
-	
-];
+mongoose.connect(mongoString);
+const database = mongoose.connection;
 
-// We define all models according to their files.
-for (const modelDefiner of modelDefiners) {
-	modelDefiner(sequelize);
-}
+database.on('error', (error) => console.log(error));
+database.once('connected', () => console.log('Database Connected'));
 
-modelConfig(sequelize);
-
-module.exports = sequelize;
+module.exports = database;
