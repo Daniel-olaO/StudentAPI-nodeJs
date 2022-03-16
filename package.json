@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/app",
-    "test":  "mocha ./test/*.test.js --timeout 100000"
+    "test": "mocha ./test/*.test.js --timeout 100000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "joi": "^17.6.0",
