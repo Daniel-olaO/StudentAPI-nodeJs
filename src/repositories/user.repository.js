@@ -2,48 +2,18 @@ const bcrypt = require('bcrypt');
 const Model = require('../database/models/users.model');
 
 module.exports = class UserRepository {
-    async getAllUsers() {
+    async createUser(user) {
         try {
-            const users = await Model.find();
-            
-            if(users) {
-                return users.map(user => {
-                    return {
-                        username: user.username,
-                        email: user.email,
-                    }
-                });
-            }
+            const hashedPassword = await bcrypt.hash(user.password, 10);
+            user.password = hashedPassword;
+            const newUser = await Model.create(user);
+            return {
+                user: newUser.username,
+                email: newUser.email
+            };
         }
         catch (error) {
             return error;
-        }
-    }
-    async createUser(user) {
-        var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-
-        if(user.password.length < 8){
-            throw new Error('Password must be at least 8 characters long');
-        }
-        else if(!format.test(user.password)){
-            throw new Error('Password must contain at least one special character');
-        }
-        else if(/\d/.test(user.password)){
-            throw new Error('Password must contain at least one number');
-        }
-        else if(user.password !== user.confirmPassword) {
-            throw new Error('Password and Confirm Password do not match');
-        } 
-        else {
-            try {
-                const hashedPassword = await bcrypt.hash(user.password, 10);
-                user.password = hashedPassword;
-                const newUser = await Model.create(user);
-                return newUser;
-            }
-            catch (error) {
-                return error;
-            }
         }
     }
     async loginUser(user) {

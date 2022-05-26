@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
 const  UserRepository = require('../repositories/user.repository');
+const { generateAccessToken } = require('../utils/utils');
 
 /**
  * Controllers functions that handle user related requests
@@ -12,23 +13,8 @@ const  UserRepository = require('../repositories/user.repository');
  */
 
 //mddleware for JWT
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
 
-var jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET
-}
 
-var strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-    console.log('payload received', jwt_payload);
-    
-    if (jwt_payload.id) {
-        next(null, { id: jwt_payload.id, name: jwt_payload.name });
-    } else {
-        next(null, false);
-    }
-});
 
 const uerRepository = new UserRepository(); 
 
@@ -46,20 +32,11 @@ module.exports = {
             const user = await uerRepository.loginUser(req.body);
             console.log(user);
             if (user.username) {
-                let payload = {
-                    _id: user._id,
-                    username: user.username,
-                }
-                let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });           
-                res.status(200).json({
-                    success: true,
-                    message: 'Authentication successful!',
-                    token: token
-                });
+                const token = generateAccessToken({ username: user.username });
+                res.json(token);
             } else {
                 res.status(401).json({
-                    success: false,
-                    message: user
+                    "message": "Invalid username or password"
                 });
             }
         } catch (error) {
@@ -74,5 +51,18 @@ module.exports = {
         } catch (error) {
             res.status(404).send(error);    
         }
+    },
+    authenticateToken: (req, res, next) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+
+        if (token == null) return res.sendStatus(401)
+
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+            console.log(err);
+            if (err) return res.sendStatus(403);
+            req.user = user
+            next()
+        })
     }
 }

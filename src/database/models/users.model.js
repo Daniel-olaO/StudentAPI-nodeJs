@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 const connection = require('../index');
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -18,4 +18,4 @@ const userSchema = new Schema({
     },
 });
 
-module.exports = connection.model('User', userSchema);
+module.exports = connection.model('User', UserSchema);
