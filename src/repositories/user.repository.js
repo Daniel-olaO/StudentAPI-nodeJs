@@ -4,15 +4,21 @@ const Model = require('../database/models/users.model');
 module.exports = class UserRepository {
     async createUser(user) {
         try {
-            const hashedPassword = await bcrypt.hash(user.password, 10);
-            user.password = hashedPassword;
-            const newUser = await Model.create(user);
-            return {
-                user: newUser.username,
-                email: newUser.email
-            };
+            if(user.password === user.rePassword){
+                const hashedPassword = await bcrypt.hash(user.password, 10);
+                user.password = hashedPassword;
+                const newUser = await Model.create(user);
+                return {
+                    user: newUser.username,
+                    email: newUser.email
+                };
+            }
+            
         }
         catch (error) {
+            if(error.code == 11000){
+                return "User Name already taken!"
+            }
             return error;
         }
     }
