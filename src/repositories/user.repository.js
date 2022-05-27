@@ -1,17 +1,26 @@
 const bcrypt = require('bcrypt');
 const Model = require('../database/models/users.model');
+const { schema } = require('../validations/passwordValidator');
 
 module.exports = class UserRepository {
     async createUser(user) {
         try {
             if(user.password === user.rePassword){
-                const hashedPassword = await bcrypt.hash(user.password, 10);
-                user.password = hashedPassword;
-                const newUser = await Model.create(user);
-                return {
-                    user: newUser.username,
-                    email: newUser.email
-                };
+                if(schema.validate(user.password)){
+                    const hashedPassword = await bcrypt.hash(user.password, 10);
+                    user.password = hashedPassword;
+                    const newUser = await Model.create(user);
+                    return {
+                        user: newUser.username,
+                        email: newUser.email
+                    };
+                }
+                else{
+                    return schema.validate(user.password, {
+                        details: true
+                    }).message
+                }
+                
             }
             
         }
