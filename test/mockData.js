@@ -92,6 +92,46 @@ const studentMissingProgram = {
     "program":"",
     "startDate":"02/22/2022"
 }
+const validUser = {
+    "username":"dadedeji",
+    "email":"dadedji@stu.ca",
+    "password":"z@Q1w2e3r4",
+    "rePassword":"z@Q1w2e3r4",
+}
+const userMissingUsername = {
+    "username":"",
+    "email":"xyz@cap.sa",
+    "password":"z@Q1w2e3r4",
+    "rePassword":"z@Q1w2e3r4",
+}
+const userMissingEmail = {
+    "username":"xyz",
+    "email":"",
+    "password":"z@Q1w2e3r4",
+    "rePassword":"z@Q1w2e3r4",
+}
+const user_with_bad_password = {
+    "username":"Maraim96",
+    "email":"maraim96@hotmail.com",
+    "password":"pass1",
+    "rePassword":"pass1",
+}
+const existingUser = {
+    "username":"dadedeji",
+    "email":"dadedeji@stu.ca",
+    "password":"z@Q1w2e3r4",
+    "rePassword":"z@Q1w2e3r4",
+}
+const existingEmail = {
+    "username":"xyz",
+    "email":"dadedeji@stu.ca",
+    "password":"z@Q1w2e3r4",
+    "rePassword":"z@Q1w2e3r4",
+}
+const loginCredentials = {
+    "username":"dadedeji",
+    "password":"z@Q1w2e3r4",
+}
 
 module.exports = {
     validStudent,
@@ -106,5 +146,12 @@ module.exports = {
     studentMissingPhoneNumber,
     studentWithInvalidEmail,
     studentWithInvalidPhoneNumber,
-    studentMissingProgram
+    studentMissingProgram,
+    validUser,
+    userMissingUsername,
+    userMissingEmail,
+    user_with_bad_password,
+    existingUser,
+    loginCredentials,
+    existingEmail,
 }

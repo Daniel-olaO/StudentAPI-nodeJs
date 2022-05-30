@@ -22,9 +22,12 @@ module.exports = {
     createUser: async(req, res, next) => {
         try {
             const user = await uerRepository.createUser(req.body);
-            res.status(201).json(user);
+            if(user.username) res.status(201).json(user);
+            else{
+                res.status(409).json({"message":user});
+            }
         } catch (error) {
-            res.status(409).send({ error: error });
+            res.status(409).send(error);
         }
     },
     loginUser: async(req, res, next) => {
@@ -33,7 +36,7 @@ module.exports = {
             console.log(user);
             if (user.username) {
                 const token = generateAccessToken({ username: user.username });
-                res.json(token);
+                res.status(200).json(token);
             } else {
                 res.status(401).json({
                     "message": "Invalid username or password"
@@ -46,7 +49,7 @@ module.exports = {
     },
     deleteUser: async(req, res, next) => {
         try {
-            await uerRepository.deleteUser(req.params.id);
+            await uerRepository.deleteUser(req.params.username);
             res.status(204).json({"message": "User deleted successfully"});
         } catch (error) {
             res.status(404).send(error);    
