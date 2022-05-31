@@ -15,7 +15,12 @@ module.exports = {
     addStudent: async(req, res, next)=>{
         try {
             const newStudent = await studentRepository.addStudent(req.body);
-            res.status(201).json(newStudent);
+            if(newStudent.studentId){
+                res.status(201).json(newStudent);
+            }
+            else{
+                res.status(409).json({"message": newStudent});
+            }
         } catch (error) {
             res.status(400).json(error);
         }
@@ -31,7 +36,12 @@ module.exports = {
     getStudentById: async(req, res, next)=>{
         try {
             const student = await studentRepository.getStudentById(req.params.id);
-            res.status(200).json(student);
+            if(student.studentId){
+                res.status(200).json(student);
+            }
+            else{
+                res.status(404).json({"message": student});
+            }
         } catch (error) {
             next(error);
         }
@@ -55,7 +65,7 @@ module.exports = {
     takeCouse: async(req, res, next)=>{
         try{
             const course = await courseRepository.getCourseByCode(req.params.code);
-            if(course){
+            if(course.code){
                 const student = await studentRepository.takeCouse(req.params.id, course);
                 res.status(202).json(student);
             }
