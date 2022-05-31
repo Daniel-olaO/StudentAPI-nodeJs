@@ -1,5 +1,5 @@
 const Model = require('../database/models/students.model');
-const { generateId } = require('../utils/utils')
+const { generateId } = require('../utils/utils');
 
 module.exports = class StudentRepository{
     async addStudent(studentData) {
