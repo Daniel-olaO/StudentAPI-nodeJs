@@ -13,6 +13,9 @@ module.exports = class UserRepository {
                     email: newUser.email
                 };
             }
+            else{
+                throw new Error("password doesn't match");
+            }
             
         }
         catch (error) {
