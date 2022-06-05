@@ -20,9 +20,9 @@ module.exports = class UserRepository {
         }
         catch (error) {
             if(error.code == 11000){
-                return "User Name already taken!"
+                console.log("User Name already taken!");
             }
-            return error;
+            console.log(error);
         }
     }
     async loginUser(user) {
@@ -42,7 +42,7 @@ module.exports = class UserRepository {
             }
         }
         catch (error) {
-            return error;
+            console.log(error);
         }
     }
     async deleteUser(id) {
@@ -51,7 +51,7 @@ module.exports = class UserRepository {
             return deletedUser;
         }
         catch (error) {
-            return error;
+            console.log(error);
         }
     }
 };
