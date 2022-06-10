@@ -31,9 +31,11 @@ module.exports = {
         try {
             const user = await uerRepository.loginUser(req.body);
             console.log(user);
-            if (user.username) {
-                const token = generateAccessToken({ username: user.username });
-                res.json(token);
+            if (user) {
+                const token = generateAccessToken({ username: user});
+                
+                res.cookie('token',token, {httpOnly: true});
+                res.status(200).json({user, token});
             } else {
                 res.status(401).json({
                     "message": "Invalid username or password"

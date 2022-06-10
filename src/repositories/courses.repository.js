@@ -17,7 +17,7 @@ module.exports = class CourseRepository{
             if(error.code === 11000){
                 return `courseId: ${courseData.courseId} already exits`;
             }
-            return error.message;
+            console.error(error);
         }
     }
     async getCourseByCode(code) {
@@ -26,7 +26,7 @@ module.exports = class CourseRepository{
             return data;
         }
         catch(error){
-            return error.message;
+            console.log(error);
         }
     }
     async getAllCourses(){
@@ -35,7 +35,7 @@ module.exports = class CourseRepository{
             return data;
         }
         catch (err) {            
-            return err.message;
+            console.error(err);
         }
     }
     async updateCourseByCode(courseData, code) {
@@ -46,7 +46,7 @@ module.exports = class CourseRepository{
             return result;
         }
         catch (err) {
-            return err.message;
+            console.log(err);
         }
     }
     async deleteCourseByCode(code) {
@@ -55,7 +55,7 @@ module.exports = class CourseRepository{
            return data;
        }
        catch(err) {
-           return err.message;
+           console.log(err);
        }
     }
 }

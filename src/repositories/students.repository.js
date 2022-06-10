@@ -19,9 +19,9 @@ module.exports = class StudentRepository{
         }
         catch(error){
             if(error.code === 11000){
-                return `studentId: ${studentData.studentId} already exits`;
+                console.log(`studentId: ${studentData.studentId} already exits`);
             }
-            return error.message;
+            console.error(error);
         }
     }
     async getAllStudent(){
@@ -30,7 +30,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            return error.message;
+            console.log(error);
         }
     }
     async getStudentById(id){
@@ -39,7 +39,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            return error.message;
+            console.log(error);
         }
     }
     async updateStudent(studentData, id) {
@@ -51,7 +51,7 @@ module.exports = class StudentRepository{
             return result
         }
         catch (error) {
-            return error.message;
+            console.log(error);
         }
     } 
     async deleteStudentById(id) {
@@ -60,7 +60,7 @@ module.exports = class StudentRepository{
             return data
         }
         catch (error) {
-            return error.message;
+            console.log(error);
         }
     }
     async takeCouse(id, courseData){
@@ -79,8 +79,8 @@ module.exports = class StudentRepository{
         }
         catch (err) {
             if(err.code === 11000)
-                return `${courseData.code} has already been added`;
-            return err.message;
+                console.log(`${courseData.code} has already been added`);
+            console.log(err);
         }
     }
     async dropCouse(id, courseCode){
@@ -94,7 +94,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(err){
-            return err.message;
+            console.log(err);
         }
     }
 }

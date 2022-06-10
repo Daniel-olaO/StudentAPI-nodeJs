@@ -15,12 +15,7 @@ module.exports = {
     addStudent: async(req, res, next)=>{
         try {
             const newStudent = await studentRepository.addStudent(req.body);
-            if(newStudent.studentId){
-                res.status(201).json(newStudent);
-            }
-            else{
-                res.status(409).json({"message": newStudent});
-            }
+            res.status(201).json(newStudent);
         } catch (error) {
             res.status(400).json(error);
         }
@@ -36,12 +31,7 @@ module.exports = {
     getStudentById: async(req, res, next)=>{
         try {
             const student = await studentRepository.getStudentById(req.params.id);
-            if(student.studentId){
                 res.status(200).json(student);
-            }
-            else{
-                res.status(404).json({"message": student});
-            }
         } catch (error) {
             next(error);
         }

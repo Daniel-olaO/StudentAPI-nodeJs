@@ -14,12 +14,7 @@ module.exports = {
     addCourse: async(req, res, next)=>{
         try {
             const newCourse = await courseRepository.addCourse(req.body);
-            if(newCourse.code){
-                res.status(201).json(newCourse);
-            }
-            else{
-                res.status(409).json({"message":newCourse});
-            }
+            res.status(201).json(newCourse);        
         } catch (error) {
             next(error);
         }
@@ -27,12 +22,7 @@ module.exports = {
     getCourseByCode: async(req, res, next)=>{
         try {
             const course = await courseRepository.getCourseByCode(req.params.code);
-            if(newCourse.code){
-                res.status(200).json(newCourse);
-            }
-            else{
-                res.status(404).json({"message":newCourse});
-            }
+            res.status(200).json(newCourse);
         } catch (error) {
             next(error);
         }
