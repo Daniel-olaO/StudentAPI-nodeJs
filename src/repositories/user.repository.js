@@ -19,17 +19,17 @@ module.exports = class UserRepository {
                     const validation = schema.validate(user.password, {
                         details: true
                     });
-                    console.log(validation[0].message);
+                    return validation;
                 }
             }
             else{
-                throw new Error("password doesn't match");
+                return "password doesn't match";
             }
             
         }
         catch (error) {
             if(error.code == 11000){
-                console.log("User Name already taken!");
+                return "User Name already taken!";
             }
             console.log(error);
         }
