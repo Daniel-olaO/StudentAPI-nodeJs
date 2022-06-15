@@ -31,7 +31,7 @@ module.exports = {
     getStudentById: async(req, res, next)=>{
         try {
             const student = await studentRepository.getStudentById(req.params.id);
-            res.status(200).json(student);
+                res.status(200).json(student);
         } catch (error) {
             next(error);
         }
@@ -55,7 +55,7 @@ module.exports = {
     takeCouse: async(req, res, next)=>{
         try{
             const course = await courseRepository.getCourseByCode(req.params.code);
-            if(course){
+            if(course.code){
                 const student = await studentRepository.takeCouse(req.params.id, course);
                 res.status(202).json(student);
             }
