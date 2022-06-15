@@ -17,6 +17,28 @@ describe('API test', () =>{
             done();
         });
     });
+      it('should return  success when an user has been created',(done)=>{  
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.validUser)
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+      it('should return status code: 200 when user login successfully',(done)=>{
+        request(server)
+        .post('/api/users/login')
+        .send(mock.loginCredentials)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
     it("should pass when course's data is valid", (done) => {
         request(server)
         .post('/api/courses/addCourse')
@@ -193,4 +215,70 @@ describe('API test', () =>{
             done();
         })
     });
+    it('should return status code: 409 when an user has being created without an username',(done)=>{
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.userMissingUsername)
+        .expect('Content-Type', /json/)
+        .expect(409)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should return status code: 409 when an user has being created without an email',(done)=>{
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.userMissingEmail)
+        .expect('Content-Type', /json/)
+        .expect(409)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should return status code: 409 when an user has being created with a weak password',(done)=>{
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.user_with_bad_password)
+        .expect('Content-Type', /json/)
+        .expect(409)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should return status code: 409 when an user has being created with an existing username',(done)=>{
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.existingUser)
+        .expect('Content-Type', /json/)
+        .expect(409)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should return status code: 409 when an user has being created with an existing email',(done)=>{
+        request(server)
+        .post('/api/users/signup')
+        .send(mock.existingEmail)
+        .expect('Content-Type', /json/)
+        .expect(409)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+    it('should delete an user',(done)=>{
+        request(server)
+        .delete('/api/users/dadedeji')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+            if (err) return done(err);
+            done();
+        })
+    });
+  
 })
