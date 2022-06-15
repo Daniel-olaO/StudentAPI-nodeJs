@@ -34,6 +34,7 @@ module.exports = {
         try {
             const user = await uerRepository.loginUser(req.body);
             console.log(user);
+
             if (user.username) {
                 const token = generateAccessToken({ username: user.username });
                 res.status(200).json(token);
