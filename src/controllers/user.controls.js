@@ -30,11 +30,10 @@ module.exports = {
     loginUser: async(req, res, next) => {
         try {
             const user = await uerRepository.loginUser(req.body);
-            console.log(user);
-
-            if (user.username) {
-                const token = generateAccessToken({ username: user.username });
-                res.status(200).json(token);
+            
+            if (user) {
+                const token = generateAccessToken({ username: user });
+                res.status(200).json({ user, token});
             } else {
                 res.status(401).json({
                     "message": "Invalid username or password"
