@@ -22,22 +22,22 @@ module.exports = {
     createUser: async(req, res, next) => {
         try {
             const user = await uerRepository.createUser(req.body);
-            if(user.username) res.status(201).json(user);
-            else{
-                res.status(409).json({"message":user});
-            }
+            res.status(201).json(user);
         } catch (error) {
-            res.status(409).send(error);
+            res.status(400).json(error);
         }
     },
     loginUser: async(req, res, next) => {
         try {
             const user = await uerRepository.loginUser(req.body);
-            console.log(user);
-
-            if (user.username) {
-                const token = generateAccessToken({ username: user.username });
-                res.status(200).json(token);
+            
+            if (user) {
+                const token = generateAccessToken({ username: user });
+                const response = {
+                    user,
+                    token
+                }
+                res.status(200).json(response);
             } else {
                 res.status(401).json({
                     "message": "Invalid username or password"
@@ -45,15 +45,15 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            res.status(404).json(error);
+            res.status(400).json(error);
         }
     },
     deleteUser: async(req, res, next) => {
         try {
-            await uerRepository.deleteUser(req.params.username);
+            await uerRepository.deleteUser(req.params.id);
             res.status(204).json({"message": "User deleted successfully"});
         } catch (error) {
-            res.status(404).send(error);    
+            res.status(400).send(error);    
         }
     },
     authenticateToken: (req, res, next) => {
