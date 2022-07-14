@@ -7,5 +7,8 @@ module.exports = {
     },
     generateAccessToken: function(username) {
         return jwt.sign(username, process.env.JWT_SECRET, { expiresIn: '1h' });
+    },
+    generateRefreshAccessToken: function(username) {
+        return jwt.sign(username, process.env.JWT_REFRESH_ACCESS_TOKEN, { expiresIn: '7d' });
     }
 }

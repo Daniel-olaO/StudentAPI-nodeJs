@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
 const  UserRepository = require('../repositories/user.repository');
-const { generateAccessToken } = require('../utils/utils');
+const { generateAccessToken, generateRefreshAccessToken } = require('../utils/utils');
 
 /**
  * Controllers functions that handle user related requests
@@ -33,9 +33,10 @@ module.exports = {
             console.log(user);
             if (user) {
                 const token = generateAccessToken({ username: user});
+                const refreshToken = generateRefreshAccessToken({ username: user });
                 
                 res.cookie('token',token, {httpOnly: true});
-                res.status(200).json({user, token});
+                res.status(200).json({user, token, refreshToken});
             } else {
                 res.status(401).json({
                     "message": "Invalid username or password"
@@ -55,16 +56,16 @@ module.exports = {
         }
     },
     authenticateToken: (req, res, next) => {
-        const authHeader = req.headers['authorization']
-        const token = authHeader && authHeader.split(' ')[1]
-
-        if (token == null) return res.sendStatus(401)
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+    
+         if (token == null) return res.sendStatus(401);
 
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
             console.log(err);
             if (err) return res.sendStatus(403);
-            req.user = user
-            next()
-        })
+            req.user = user;
+            next();
+        });
     }
 }

@@ -19,9 +19,9 @@ module.exports = class StudentRepository{
         }
         catch(error){
             if(error.code === 11000){
-                console.log(`studentId: ${studentData.studentId} already exits`);
+                return `studentId: ${studentData.studentId} already exits`;
             }
-            console.error(error);
+            return error;
         }
     }
     async getAllStudent(){
@@ -30,7 +30,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
+            return error;
         }
     }
     async getStudentById(id){
@@ -39,7 +39,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
+            return error;
         }
     }
     async updateStudent(studentData, id) {
@@ -79,8 +79,8 @@ module.exports = class StudentRepository{
         }
         catch (err) {
             if(err.code === 11000)
-                console.log(`${courseData.code} has already been added`);
-            console.log(err);
+                return `${courseData.code} has already been added`;
+            return err;
         }
     }
     async dropCouse(id, courseCode){
@@ -94,7 +94,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(err){
-            console.log(err);
+            return err;
         }
     }
 }
