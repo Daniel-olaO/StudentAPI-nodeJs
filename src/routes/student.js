@@ -10,7 +10,7 @@ router.post('/addStudent',
     validator.validateStudent,
     studentController.addStudent
 );
-router.get('/',
+router.get('/', 
     authenticateToken,
     studentController.getStudents
 );
@@ -23,7 +23,7 @@ router.put('/updateStudent/:id',
     validator.validateStudent,
     studentController.updateStudent
 );
-router.put('/:id/takeCourse/:code',
+router.put('/:id/takeCourse/:code', 
     authenticateToken,
     studentController.takeCouse
 );

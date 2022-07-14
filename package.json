@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/app",
-    "test": "mocha ./test/*.test.js --timeout 100000"
+    "test": "mocha ./test/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.2",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "password-validator": "^5.3.0"
   },
   "devDependencies": {
     "expect": "^27.5.1",
