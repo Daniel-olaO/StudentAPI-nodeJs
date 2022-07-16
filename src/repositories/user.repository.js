@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const Model = require('../database/models/users.model');
-const schema = require('../validations/passwordValidator')
+const schema = require('../validations/passwordValidator');
+
 
 module.exports = class UserRepository {
     async createUser(user) {
@@ -11,7 +12,7 @@ module.exports = class UserRepository {
                     user.password = hashedPassword;
                     const newUser = await Model.create(user);
                     return {
-                        user: newUser.username,
+                        username: newUser.username,
                         email: newUser.email
                     };
                 }
@@ -43,24 +44,24 @@ module.exports = class UserRepository {
                     return foundUser.username;
                 }
                 else {
-                    console.log('invalid password');
+                    throw new Error('invalid password');
                 }
             }
             else {
-                console.log('user: ' + user.username + ' not found');
+                throw new Error('user: ' + user.username + ' not found');
             }
         }
         catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     }
-    async deleteUser(id) {
+    async deleteUser(username) {
         try {
-            const deletedUser = await Model.findByIdAndRemove(id);
+            const deletedUser = await Model.findOneAndDelete({username: username});
             return deletedUser;
         }
         catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     }
 };
