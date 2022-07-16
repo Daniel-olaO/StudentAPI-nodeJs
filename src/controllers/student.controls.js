@@ -15,7 +15,15 @@ module.exports = {
     addStudent: async(req, res, next)=>{
         try {
             const newStudent = await studentRepository.addStudent(req.body);
-            res.status(201).json(newStudent);
+            if(newStudent.email) {
+                return res.status(201).json({
+                    message: "Student created successfully",
+                    student: newStudent
+                });
+            }
+            else{
+                return res.status(400).json({"message":newStudent});
+            }
         } catch (error) {
             res.status(400).json(error);
         }

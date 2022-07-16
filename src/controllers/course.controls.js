@@ -14,7 +14,15 @@ module.exports = {
     addCourse: async(req, res, next)=>{
         try {
             const newCourse = await courseRepository.addCourse(req.body);
-            res.status(201).json(newCourse);        
+            if(newCourse.code) {
+                return res.status(201).json({
+                    message: "Course created successfully",
+                    course: newCourse
+                });
+            }
+            else{
+                return res.status(400).json({"message":newCourse});
+            }
         } catch (error) {
             next(error);
         }

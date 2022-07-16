@@ -22,7 +22,15 @@ module.exports = {
     createUser: async(req, res, next) => {
         try {
             const user = await uerRepository.createUser(req.body);
-            res.status(201).json(user);
+            if(user.email) {
+                return res.status(201).json({
+                    message: "User created successfully",
+                    user: user
+                });
+            }
+            else{
+                return res.status(400).json({"message":user});
+            }
         } catch (error) {
             res.status(409).send({ error: error });
         }
