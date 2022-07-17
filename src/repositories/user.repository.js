@@ -44,11 +44,11 @@ module.exports = class UserRepository {
                     return foundUser.username;
                 }
                 else {
-                    throw new Error('invalid password');
+                    console.log('invalid password');
                 }
             }
             else {
-                throw new Error('user: ' + user.username + ' not found');
+                console.log('user: ' + user.username + ' not found');
             }
         }
         catch (error) {
