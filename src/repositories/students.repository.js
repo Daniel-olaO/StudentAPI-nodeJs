@@ -4,7 +4,7 @@ const { generateId } = require('../utils/utils');
 module.exports = class StudentRepository{
     async addStudent(studentData) {
         let id = generateId();
-
+        console.log("id: " + id);
         const newStudent = new Model({
             studentId: id,
             firstName: studentData.firstName,
@@ -15,11 +15,12 @@ module.exports = class StudentRepository{
         });
         try{
             const data = await newStudent.save();
+            
             return data;
         }
         catch(error){
             if(error.code === 11000){
-                return `studentId: ${studentData.studentId} already exits`;
+                return error;
             }
             return error;
         }

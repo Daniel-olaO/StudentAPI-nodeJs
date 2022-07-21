@@ -1,5 +1,7 @@
 const StudentRepository = require('../repositories/students.repository');
 const CourseRepository = require('../repositories/courses.repository');
+const Model = require('../database/models/students.model');
+const { generateId } = require('../utils/utils');
 
 
 /**
@@ -13,8 +15,19 @@ const studentRepository = new StudentRepository();
 const courseRepository = new CourseRepository();
 module.exports = {
     addStudent: async(req, res, next)=>{
+        let id = generateId();
+        console.log("id: " + id);
+        const newStudent = new Model({
+            studentId: id,
+            firstName: studentData.firstName,
+            lastName: studentData.lastName,
+            email: studentData.email,
+            phone: studentData.phone,
+            program: studentData.program,
+        });
         try {
-            const newStudent = await studentRepository.addStudent(req.body);
+            const newStudent = await newStudent.save();
+            console.table(newStudent);
             if(newStudent.email) {
                 return res.status(201).json({
                     message: "Student created successfully",
@@ -30,7 +43,7 @@ module.exports = {
     },
     getStudents: async(req, res, next)=>{
         try {
-            const students = await studentRepository.getAllStudent();
+            const students = await Model.find();
             res.status(200).json(students);
         } catch (error) {
             res.status(400).json(error);
@@ -38,7 +51,7 @@ module.exports = {
     },
     getStudentById: async(req, res, next)=>{
         try {
-            const student = await studentRepository.getStudentById(req.params.id);
+            const student = await Model.findOne({studentId: req.params.id});
                 res.status(200).json(student);
         } catch (error) {
             next(error);
@@ -46,7 +59,7 @@ module.exports = {
     },
     updateStudent: async(req, res, next)=>{
         try {
-            const student = await studentRepository.updateStudent(req.body, req.params.id);
+            const student = await Model.findByIdAndUpdate(req.params.id, req.body, {new: true});
             res.status(201).json(student);
         } catch (error) {
             res.status(400).json(error);
@@ -54,8 +67,8 @@ module.exports = {
     },
     deleteStudentById: async(req, res, next)=>{
         try {
-            await studentRepository.deleteStudentById(req.params.id);
-            res.status(204).end();
+            const delete_student = await Model.findOneAndDelete({studentId: req.params.id});
+            res.status(204).send(delete_student);
         } catch (error) {
             res.status(400).json(error);
         }

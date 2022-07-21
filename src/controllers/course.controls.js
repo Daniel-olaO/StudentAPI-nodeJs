@@ -1,4 +1,4 @@
-const CourseRepository = require('../repositories/courses.repository');
+const Model = require('../database/models/courses.model');
 
 /**
  * Controller function that etrieves the list of records based on date and count
@@ -9,11 +9,17 @@ const CourseRepository = require('../repositories/courses.repository');
  * @returns {Object} - Success response in JSON
  */
 
-const courseRepository = new CourseRepository()
+// const courseRepository = new CourseRepository()
 module.exports = {
     addCourse: async(req, res, next)=>{
+        const courseData = new Model({
+            code: courseData.code,
+            name: courseData.name,
+            professor: courseData.professor,
+            program: courseData.program
+        });
         try {
-            const newCourse = await courseRepository.addCourse(req.body);
+            const newCourse = await courseData.save();
             if(newCourse.code) {
                 return res.status(201).json({
                     message: "Course created successfully",
@@ -29,7 +35,7 @@ module.exports = {
     },
     getCourseByCode: async(req, res, next)=>{
         try {
-            const course = await courseRepository.getCourseByCode(req.params.code);
+            const course = await Model.findOne({code: req.params.code});
             res.status(200).json(newCourse);
         } catch (error) {
             next(error);
@@ -37,7 +43,7 @@ module.exports = {
     },
     getAllCoures: async(req, res, next)=>{
         try {
-            const courses = await courseRepository.getAllCourses();
+            const courses = await Model.find();
             res.status(200).json(courses)
         } catch (error) {
             next(error);
@@ -45,7 +51,7 @@ module.exports = {
     },
     updateCourseByCode: async(req, res, next)=>{
         try {
-            const newCourse = await courseRepository.updateCourseByCode(req.body, req.params.code);
+            const newCourse = await Model.findOneAndUpdate(code, req.body, {new: true});
             res.status(201).json(newCourse);
         } catch (error) {
             next(error);
@@ -53,8 +59,8 @@ module.exports = {
     },
     deleteCourseByCode: async(req, res, next)=>{
         try {
-            await courseRepository.deleteCourseByCode(req.params.code);
-            res.status(204).end();
+            const course = await Model.findOneAndDelete({code: req.params.code});
+            res.status(200).json(course);
         } catch (error) {
             next(error);
         }
