@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/app",
-    "test": "mocha ./test/*.test.js"
+    "test": "mocha ./test/*.test.js",
+    "lint": "eslint ./"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,8 @@
     "password-validator": "^5.3.0"
   },
   "devDependencies": {
+    "eslint": "^8.20.0",
+    "eslint-config-google": "^0.14.0",
     "expect": "^27.5.1",
     "mocha": "^9.2.1",
     "nodemon": "^2.0.15",
