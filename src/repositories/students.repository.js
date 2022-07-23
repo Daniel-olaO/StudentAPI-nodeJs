@@ -4,7 +4,7 @@ const { generateId } = require('../utils/utils');
 module.exports = class StudentRepository{
     async addStudent(studentData) {
         let id = generateId();
-
+        console.log("id: " + id);
         const newStudent = new Model({
             studentId: id,
             firstName: studentData.firstName,
@@ -15,13 +15,14 @@ module.exports = class StudentRepository{
         });
         try{
             const data = await newStudent.save();
+            
             return data;
         }
         catch(error){
             if(error.code === 11000){
-                console.log(`studentId: ${studentData.studentId} already exits`);
+                return error;
             }
-            console.error(error);
+            return error;
         }
     }
     async getAllStudent(){
@@ -30,7 +31,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
+            return error;
         }
     }
     async getStudentById(id){
@@ -39,7 +40,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(error){
-            console.log(error);
+            return error;
         }
     }
     async updateStudent(studentData, id) {
@@ -79,8 +80,8 @@ module.exports = class StudentRepository{
         }
         catch (err) {
             if(err.code === 11000)
-                console.log(`${courseData.code} has already been added`);
-            console.log(err);
+                return `${courseData.code} has already been added`;
+            return err;
         }
     }
     async dropCouse(id, courseCode){
@@ -94,7 +95,7 @@ module.exports = class StudentRepository{
             return data;
         }
         catch(err){
-            console.log(err);
+            return err;
         }
     }
 }

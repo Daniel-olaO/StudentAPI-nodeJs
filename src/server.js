@@ -14,7 +14,7 @@ app.use('/api/users', userRoutes);
 
 
 app.get('/api', (req, res)=>{
-    res.status(200).json({"message":"welcome to studentAPI"})
+  res.status(200).json({'message': 'welcome to studentAPI'});
 });
 
 module.exports = app;
