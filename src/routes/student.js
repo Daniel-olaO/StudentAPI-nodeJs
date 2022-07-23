@@ -6,7 +6,7 @@ const validator = require('../validations/student');
 const router = express.Router();
 
 router.post('/addStudent',
-    authenticateToken,
+    // authenticateToken,
     validator.validateStudent,
     studentController.addStudent
 );

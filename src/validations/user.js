@@ -7,19 +7,19 @@ const joi = require('joi')
  * @param {Next} next - Callback function
  * @returns {Object} - Response in JSON
  */
-exports.validateCourse = function(req, res, next){
+exports.validateUser = function(req, res, next){
     const schema = joi.object({
-        code: joi.string().required(),
-        name: joi.string().required(),
-        professor: joi.string().required(),
-        program: joi.string().length(3).required(),
+        username: joi.string().required(),
+        password: joi.string().required(),
+        rePassword: joi.string().required(),
+        email: joi.string().email().required(),
     });
     const validation = schema.validate(req.body);
     if (validation.error) {
     const message = validation.error.message? validation.error.message
       : validation.error.details[0].message;
 
-      return res.status(400).json({"message": message});
+      return res.status(400).json({message: message});
     }
     return next();
 

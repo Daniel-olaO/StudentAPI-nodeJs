@@ -20,19 +20,19 @@ module.exports = class UserRepository {
                     const validation = schema.validate(user.password, {
                         details: true
                     });
-                    throw new Error(validation[0].message);
+                    return validation[0].message;
                 }
             }
             else{
-                throw new Error("password doesn't match");
+                return "password doesn't match";
             }
             
         }
         catch (error) {
             if(error.code == 11000){
-                throw new Error("User Name already taken!");
+                return "User Name already taken!";
             }
-            throw new Error(error);
+            return error;
         }
     }
     async loginUser(user) {
@@ -44,11 +44,11 @@ module.exports = class UserRepository {
                     return foundUser.username;
                 }
                 else {
-                    throw new Error('invalid password');
+                    console.log('invalid password');
                 }
             }
             else {
-                throw new Error('user: ' + user.username + ' not found');
+                console.log('user: ' + user.username + ' not found');
             }
         }
         catch (error) {
