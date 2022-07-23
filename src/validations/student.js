@@ -20,7 +20,6 @@ exports.validateStudent = function(req, res, next) {
   if (validation.error) {
     const message = validation.error.message?
     validation.error.message : validation.error.details[0].message;
-    console.log(message);
 
     return res.status(400).json({'message': message});
   }

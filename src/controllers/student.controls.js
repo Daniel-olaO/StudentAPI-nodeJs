@@ -1,5 +1,3 @@
-const StudentRepository = require('../repositories/students.repository');
-const CourseRepository = require('../repositories/courses.repository');
 const Model = require('../database/models/students.model');
 const {generateId} = require('../utils/utils');
 
@@ -11,31 +9,24 @@ const {generateId} = require('../utils/utils');
  * @param {Next} next - Callback function
  * @returns {Object} - Success response in JSON
  */
-const studentRepository = new StudentRepository();
-const courseRepository = new CourseRepository();
+
 module.exports = {
   addStudent: async (req, res, next)=>{
     const id = generateId();
-    console.log('id: ' + id);
     const newStudent = new Model({
       studentId: id,
-      firstName: studentData.firstName,
-      lastName: studentData.lastName,
-      email: studentData.email,
-      phone: studentData.phone,
-      program: studentData.program,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      program: req.body.program,
     });
     try {
       const newStudent = await newStudent.save();
-      console.table(newStudent);
-      if (newStudent.email) {
-        return res.status(201).json({
-          message: 'Student created successfully',
-          student: newStudent,
-        });
-      } else {
-        return res.status(400).json({'message': newStudent});
-      }
+      return res.status(201).json({
+        message: 'Student created successfully',
+        student: newStudent,
+      });
     } catch (error) {
       res.status(400).json(error);
     }
@@ -78,23 +69,22 @@ module.exports = {
   },
   takeCouse: async (req, res, next)=>{
     try {
-      const course = await courseRepository.getCourseByCode(req.params.code);
-      if (course.code) {
-        const student = await studentRepository.takeCouse(
-            req.params.id, course,
-        );
-        res.status(202).json(student);
-      }
+      const student = await Model.findOne({studentId: req.params.id});
+      const course = await Model.findOne({code: req.params.code});
+      student.courses.push(course);
+      await student.save();
+      res.status(201).json(student);
     } catch (error) {
       res.status(400).json(error);
     }
   },
   dropCouse: async (req, res, next)=>{
     try {
-      const result = await studentRepository.dropCouse(
-          req.params.id, req.params.code,
-      );
-      res.status(202).json(result);
+      const student = await Model.findOne({studentId: req.params.id});
+      const course = await Model.findOne({code: req.params.code});
+      student.courses.pull(course);
+      await student.save();
+      res.status(201).json(student);
     } catch (error) {
       res.status(400).json(error);
     }

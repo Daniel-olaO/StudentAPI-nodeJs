@@ -12,14 +12,9 @@ const Model = require('../database/models/courses.model');
 // const courseRepository = new CourseRepository()
 module.exports = {
   addCourse: async (req, res, next)=>{
-    const courseData = new Model({
-      code: courseData.code,
-      name: courseData.name,
-      professor: courseData.professor,
-      program: courseData.program,
-    });
+    const {courseData} = req.body;
     try {
-      const newCourse = await courseData.save();
+      const newCourse = await Model.create(courseData);
       if (newCourse.code) {
         return res.status(201).json({
           message: 'Course created successfully',

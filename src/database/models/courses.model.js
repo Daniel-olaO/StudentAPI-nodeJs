@@ -1,4 +1,5 @@
-const {Schema} = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const connection = require('../index');
 
 const CourseSchema = new Schema({
@@ -6,5 +7,11 @@ const CourseSchema = new Schema({
   name: String,
   professor: String,
   program: String,
+  students: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Student',
+    },
+  ],
 });
 module.exports = connection.model('Course', CourseSchema);
