@@ -1,34 +1,34 @@
 const express = require('express');
 const courseController = require('../controllers/course.controls');
-const { authenticateToken } = require('../controllers/user.controls');
+const {authenticateToken} = require('../controllers/user.controls');
 const validator = require('../validations/course');
 
 const router = express.Router();
 
 router.get('/',
     authenticateToken,
-    courseController.getAllCoures
+    courseController.getAllCoures,
 );
 router.get('/:code',
     authenticateToken,
-    courseController.getCourseByCode
+    courseController.getCourseByCode,
 );
 
 router.post('/addCourse',
     authenticateToken,
     validator.validateCourse,
-    courseController.addCourse
+    courseController.addCourse,
 );
 
 router.put('/updateCourse/:code',
     authenticateToken,
     validator.validateCourse,
-    courseController.updateCourseByCode
+    courseController.updateCourseByCode,
 );
 
 router.delete('/deleteCourse/:code',
     authenticateToken,
-    courseController.deleteCourseByCode
+    courseController.deleteCourseByCode,
 );
 
-module.exports = router
+module.exports = router;
