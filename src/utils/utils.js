@@ -6,11 +6,11 @@ module.exports = {
     return id;
   },
   generateAccessToken: function(username) {
-    return jwt.sign(username, process.env.JWT_SECRET, {expiresIn: '1h'});
+    return jwt.sign({username}, process.env.JWT_SECRET, {expiresIn: '1h'});
   },
   generateRefreshAccessToken: function(username) {
     return jwt.sign(
-        username,
+        {username},
         process.env.JWT_REFRESH_ACCESS_TOKEN,
         {expiresIn: '7d'},
     );

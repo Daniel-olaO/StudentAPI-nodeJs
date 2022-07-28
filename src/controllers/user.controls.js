@@ -1,6 +1,7 @@
 // user controllers
 const jwt = require('jsonwebtoken');
 const Model = require('../database/models/users.model');
+const bcrypt = require('bcrypt');
 const {generateAccessToken,
   generateRefreshAccessToken} = require('../utils/utils');
 
@@ -46,11 +47,14 @@ module.exports = {
           const refreshToken = generateRefreshAccessToken(user.username);
           return res.status(200).json({
             message: 'User logged in successfully',
-            accessToken: accessToken,
+            user: user.username,
+            token: accessToken,
             refreshToken: refreshToken,
           });
         } else {
-          console.log('invalid password');
+          return res.status(400).json({
+            message: 'Invalid password',
+          });
         }
       } else {
         res.status(401).json({
