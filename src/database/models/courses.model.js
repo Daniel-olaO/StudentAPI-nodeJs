@@ -7,11 +7,5 @@ const CourseSchema = new Schema({
   name: String,
   professor: String,
   program: String,
-  students: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'Student',
-    },
-  ],
 });
 module.exports = connection.model('Course', CourseSchema);

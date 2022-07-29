@@ -13,11 +13,6 @@ const {generateAccessToken,
  * @returns {Object} - Response object
  */
 
-// mddleware for JWT
-
-
-// const uerRepository = new UserRepository();
-
 module.exports = {
   createUser: async (req, res, next) => {
     try {

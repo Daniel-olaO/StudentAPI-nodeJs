@@ -14,7 +14,6 @@ exports.validateStudent = function(req, res, next) {
         .email().required(),
     phone: joi.string().length(10).pattern(/^[0-9]+$/).required(),
     program: joi.string().length(3).required(),
-    // startDate: joi.date().required()
   });
   const validation = schema.validate(req.body);
   if (validation.error) {

@@ -9,7 +9,6 @@ const Model = require('../database/models/courses.model');
  * @returns {Object} - Success response in JSON
  */
 
-// const courseRepository = new CourseRepository()
 module.exports = {
   addCourse: async (req, res, next)=>{
     const {courseData} = req.body;

@@ -71,7 +71,7 @@ module.exports = {
     try {
       const student = await Model.findOne({studentId: req.params.id});
       const course = await Model.findOne({code: req.params.code});
-      student.courses.push(course);
+      student.courses.push(course._id);
       await student.save();
       res.status(201).json(student);
     } catch (error) {
@@ -82,7 +82,7 @@ module.exports = {
     try {
       const student = await Model.findOne({studentId: req.params.id});
       const course = await Model.findOne({code: req.params.code});
-      student.courses.pull(course);
+      student.courses.pull(course._id);
       await student.save();
       res.status(201).json(student);
     } catch (error) {
