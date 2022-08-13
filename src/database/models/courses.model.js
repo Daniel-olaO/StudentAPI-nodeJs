@@ -7,5 +7,6 @@ const CourseSchema = new Schema({
   name: String,
   professor: String,
   program: String,
+  description: String,
 });
 module.exports = connection.model('Course', CourseSchema);

@@ -12,6 +12,7 @@ exports.validateCourse = function(req, res, next) {
     name: joi.string().required(),
     professor: joi.string().required(),
     program: joi.string().length(3).required(),
+    description: joi.string().required(),
   });
   const validation = schema.validate(req.body);
   if (validation.error) {
