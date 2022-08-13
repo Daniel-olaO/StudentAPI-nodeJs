@@ -15,7 +15,7 @@ Student Web Server is a RESTful API that manages students' and courses' informat
 
 # Motivation
 
-Student Web Server was inspired by my college schedule builer. I wanted to create a web application that would allow students to create their own schedules by adding courses to their schedule or removing courses from their schedule.
+Student Web Server was inspired by my college schedule builder. I wanted to create a web application that would allow students to create their own schedules by adding courses to their schedule or removing courses from their schedule.
 
 # Installation
 
@@ -44,13 +44,10 @@ JWT_REFRESH_ACCESS_TOKEN for the JWT refresh token secret
 Student Web Server uses the following tools:
 Node.js, NPM, MongoDB, Mongoose, Express, Passport, JWT, Bcrypt, JOI
 
-# Heroku
-
-- [Heroku Link](https://danielstudent-api.herokuapp.com/api)
-
 # Demo
 
-- [Demo Link](https://github.com/Daniel-olaO/student-app)
+- [Backend](https://danielstudent-api.herokuapp.com/api)
+- [Frontend](...)
 
 # API Testing
 
