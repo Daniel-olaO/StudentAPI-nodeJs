@@ -1,5 +1,5 @@
-const studentModel = require('../database/models/students.model');
-const courseModel = require('../database/models/courses.model');
+const StudentModel = require('../database/models/students.model');
+const CourseModel = require('../database/models/courses.model');
 const {generateId} = require('../utils/utils');
 
 
@@ -14,7 +14,7 @@ const {generateId} = require('../utils/utils');
 module.exports = {
   addStudent: async (req, res, next)=>{
     const id = generateId();
-    const newStudent = new studentModel({
+    const newStudent = new StudentModel({
       studentId: id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -34,7 +34,7 @@ module.exports = {
   },
   getStudents: async (req, res, next)=>{
     try {
-      const students = await studentModel.find();
+      const students = await StudentModel.find();
       res.status(200).json(students);
     } catch (error) {
       res.status(400).json(error);
@@ -42,8 +42,7 @@ module.exports = {
   },
   getStudentById: async (req, res, next)=>{
     try {
-      // const student = await Model.findOne({studentId: req.params.id});
-      studentModel.aggregate([
+      StudentModel.aggregate([
         {$lookup: {
           from: 'courses',
           localField: 'courses',
@@ -63,14 +62,13 @@ module.exports = {
         }
       },
       );
-      // res.status(200).json();
     } catch (error) {
       next(error);
     }
   },
   updateStudent: async (req, res, next)=>{
     try {
-      const student = await studentModel.findByIdAndUpdate(
+      const student = await StudentModel.findByIdAndUpdate(
           req.params.id, req.body, {new: true},
       );
       res.status(201).json(student);
@@ -80,7 +78,7 @@ module.exports = {
   },
   deleteStudentById: async (req, res, next)=>{
     try {
-      const deleteStudent = await studentModel.findOneAndDelete(
+      const deleteStudent = await StudentModel.findOneAndDelete(
           {studentId: req.params.id},
       );
       res.status(204).send(deleteStudent);
@@ -90,8 +88,8 @@ module.exports = {
   },
   takeCouse: async (req, res, next)=>{
     try {
-      const student = await studentModel.findOne({studentId: req.params.id});
-      const course = await courseModel.findOne({code: req.params.code});
+      const student = await StudentModel.findOne({studentId: req.params.id});
+      const course = await CourseModel.findOne({code: req.params.code});
       student.courses.push(course._id);
       await student.save();
       res.status(201).json(student);
@@ -101,8 +99,8 @@ module.exports = {
   },
   dropCouse: async (req, res, next)=>{
     try {
-      const student = await studentModel.findOne({studentId: req.params.id});
-      const course = await courseModel.findOne({code: req.params.code});
+      const student = await StudentModel.findOne({studentId: req.params.id});
+      const course = await CourseModel.findOne({code: req.params.code});
       student.courses.pull(course._id);
       await student.save();
       res.status(201).json(student);
