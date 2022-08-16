@@ -47,7 +47,7 @@ Node.js, NPM, MongoDB, Mongoose, Express, Passport, JWT, Bcrypt, JOI
 # Demo
 
 - [Backend](https://danielstudent-api.herokuapp.com/api)
-- [Frontend](...)
+- [Frontend](https://github.com/Daniel-olaO/student-app)
 
 # API Testing
 
