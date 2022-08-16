@@ -43,15 +43,15 @@ module.exports = {
   getStudentById: async (req, res, next)=>{
     try {
       StudentModel.aggregate([
+        {$match: {
+          studentId: req.params.id,
+        },
+        },
         {$lookup: {
           from: 'courses',
           localField: 'courses',
           foreignField: '_id',
           as: 'courses_data',
-        },
-        },
-        {$match: {
-          studentId: req.params.id,
         },
         },
       ]).exec((err, result)=>{
